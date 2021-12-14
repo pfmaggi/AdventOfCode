@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 int main(void) {
+    // Open the file
     FILE *fp = fopen("../input/day01.txt", "r");
     if (!fp) {
         perror("File opening failed");
