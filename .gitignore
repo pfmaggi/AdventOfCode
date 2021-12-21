@@ -13,6 +13,9 @@ CMakeFiles/
 Makefile
 cmake_install.cmake
 
+# Gradle artifacts
+.gradle/
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
@@ -28,4 +31,5 @@ cmake_install.cmake
 *.exe
 *.out
 *.app
+build/
 day??
