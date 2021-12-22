@@ -16,6 +16,9 @@ cmake_install.cmake
 # Gradle artifacts
 .gradle/
 
+# Zig artifacts
+zig-cache
+
 # Compiled Dynamic libraries
 *.so
 *.dylib
