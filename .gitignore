@@ -35,4 +35,4 @@ zig-cache
 *.out
 *.app
 build/
-day??
+# day??
