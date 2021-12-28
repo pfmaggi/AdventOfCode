@@ -1,0 +1,80 @@
+// This contains some new "Custom" instructions
+// neq == not equal
+// yex ==> re1 = 25 * reg2 + 1
+// cdm == reg1 = reg2 % 26 ; reg2 = reg2 / 26
+// ldr == load into register
+inp z
+add z 6
+inp w
+mul z 26
+add z w
+add z 12
+inp w
+mul z 26
+add z w
+add z 5
+inp x
+add x -6
+inp w
+neq x w
+yex y x
+mul z y
+add w 7
+mul w x
+add z w
+inp w
+mul z 26
+add z w
+inp x
+inp w
+neq x w
+yex y x
+mul z y
+add w 12
+mul w x
+add z w
+inp x
+add x 7
+inp w
+neq x w
+yex y x
+mul z y
+add w 13
+mul w x
+add z w
+inp w
+cdm x z
+add x -8
+neq x w
+yex y x
+mul z y
+add w 10
+mul w x
+add z w
+inp w
+cdm x z
+add x -4
+neq x w
+yex y x
+mul z y
+add w 11
+mul w x
+add z w
+inp w
+cdm x z
+add x -15
+neq x w
+yex y x
+mul z y
+add w 9
+mul w x
+add z w
+inp w
+cdm x z
+add x -8
+neq x w
+yex y x
+mul z y
+add w 9
+mul w x
+add z w
