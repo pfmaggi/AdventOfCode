@@ -25,7 +25,7 @@ pub fn main() anyerror!void {
     var arg_it = process.args();
 
     // First arg is the executable name
-    var arg_exe = arg_it.skip();
+    var arg_exe = arg_it.next(allocator);
 
     const filename = try (arg_it.next(allocator) orelse {
         try stdout.print("Please enter filename to input data:\n", .{});
@@ -35,6 +35,7 @@ pub fn main() anyerror!void {
 
     const limit = 1 * 1024 * 1024 * 1024;
     const text = try fs.cwd().readFileAlloc(allocator, filename, limit);
+    defer allocator.free(text);
 
     var floor: i32 = 0;
     var position: usize = 0;
