@@ -31,8 +31,6 @@ int main(int argc, char *argv[]) {
     }
     long total_paper = 0;
     long total_ribbon = 0;
-    long position = 0;
-    long i = 0;
     int c;
     int w, h, l;
     while ((c = fscanf(fp,"%dx%dx%d[^\n]", &w, &h, &l)) != EOF) {
