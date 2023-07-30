@@ -28,18 +28,20 @@ pub fn main() anyerror!void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
     const allocator = arena.allocator();
-    const stdout = std.io.getStdOut().writer();
+    const stdout_file = std.io.getStdOut().writer();
+    var bw = std.io.bufferedWriter(stdout_file);
+    const stdout = bw.writer();
 
-    var arg_it = process.args();
+    var arg_it = try process.argsWithAllocator(allocator);
 
     // First arg is the executable name
-    var arg_exe = arg_it.next(allocator);
+    const arg_exe = arg_it.next() orelse "";
 
-    const filename = try (arg_it.next(allocator) orelse {
+    const filename = arg_it.next() orelse {
         try stdout.print("Please enter filename to input data:\n", .{});
         try stdout.print("> {s} <filename>\n", .{arg_exe});
         return error.InvalidArgs;
-    });
+    };
 
     const limit = 1 * 1024 * 1024 * 1024;
     const text = try fs.cwd().readFileAlloc(allocator, filename, limit);
@@ -82,4 +84,5 @@ pub fn main() anyerror!void {
     try stdout.print("AoC2015 - Day02\n===============\n", .{});
     try stdout.print("total paper = {d}\n", .{ paper });
     try stdout.print("total ribbon = {d}\n", .{ ribbon });
+    try bw.flush(); // don't forget to flush!
 }

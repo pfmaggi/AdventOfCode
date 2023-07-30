@@ -20,18 +20,20 @@ pub fn main() anyerror!void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
     const allocator = arena.allocator();
-    const stdout = std.io.getStdOut().writer();
 
-    var arg_it = process.args();
+    const stdout_file = std.io.getStdOut().writer();
+    var bw = std.io.bufferedWriter(stdout_file);
+    const stdout = bw.writer();
 
+    var arg_it = try process.argsWithAllocator(allocator);
     // First arg is the executable name
-    var arg_exe = arg_it.next(allocator);
+    var arg_exe = arg_it.next() orelse "";
 
-    const filename = try (arg_it.next(allocator) orelse {
-        try stdout.print("Please enter filename to input data:\n", .{});
-        try stdout.print("> {s} <filename>\n", .{arg_exe});
+    const filename = arg_it.next() orelse {
+        std.debug.print("Please enter filename to input data:\n", .{});
+        std.debug.print("> {s} <filename>\n", .{ arg_exe });
         return error.InvalidArgs;
-    });
+    };
 
     const limit = 1 * 1024 * 1024 * 1024;
     const text = try fs.cwd().readFileAlloc(allocator, filename, limit);
@@ -39,7 +41,7 @@ pub fn main() anyerror!void {
 
     var floor: i32 = 0;
     var position: usize = 0;
-    for (text) |c, i| {
+    for (text, 0..) |c, i| {
         if (c == '(') floor += 1;
         if (c == ')') floor -= 1;
         if ((0 == position) and (floor < 0)) position = i + 1;
@@ -48,4 +50,5 @@ pub fn main() anyerror!void {
     try stdout.print("AoC2015 - Day01\n===============\n", .{});
     try stdout.print("Final floor is: {d}\n", .{floor});
     try stdout.print("Entered the basement at position: {d}\n", .{position});
+    try bw.flush(); // don't forget to flush!
 }
