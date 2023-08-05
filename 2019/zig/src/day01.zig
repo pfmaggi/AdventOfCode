@@ -14,25 +14,26 @@
 
 const std = @import("std");
 const process = std.process;
-
 const fs = std.fs;
 
 pub fn main() anyerror!void {
     var arena = std.heap.ArenaAllocator.init(std.heap.page_allocator);
     defer arena.deinit();
     const allocator = arena.allocator();
-    const stdout = std.io.getStdOut().writer();
 
-    var arg_it = process.args();
+    const stdout_file = std.io.getStdOut().writer();
+    var bw = std.io.bufferedWriter(stdout_file);
+    const stdout = bw.writer();
 
+    var arg_it = try process.argsWithAllocator(allocator);
     // First arg is the executable name
-    var arg_exe = arg_it.next(allocator);
+    var arg_exe = arg_it.next() orelse "";
 
-    const filename = try (arg_it.next(allocator) orelse {
-        try stdout.print("Please enter filename to input data:\n", .{});
-        try stdout.print("> {s} <filename>\n", .{arg_exe});
+    const filename = arg_it.next() orelse {
+        std.debug.print("Please enter filename to input data:\n", .{});
+        std.debug.print("> {s} <filename>\n", .{ arg_exe });
         return error.InvalidArgs;
-    });
+    };
 
     const limit = 1 * 1024 * 1024 * 1024;
     const text = try fs.cwd().readFileAlloc(allocator, filename, limit);
@@ -40,16 +41,13 @@ pub fn main() anyerror!void {
 
     var sum: u64 = 0;
     var total_fuel: u64 = 0;
-    var it = std.mem.split(u8, text, "\n");
+    var it = std.mem.tokenize(u8, text, "\n\r\t");
     while (it.next()) |line| {
-        if (line.len == 0)
-            continue;
-        const trimmed = std.mem.trim(u8, line, " \n\r\t");
-        var fuel = try std.fmt.parseInt(u32, trimmed, 10);
+        var fuel = try std.fmt.parseInt(u32, line, 10);
         fuel = (fuel / 3) - 2;
         sum += fuel;
         while (fuel > 6) {
-            fuel = (fuel/3) - 2;
+            fuel = (fuel / 3) - 2;
             total_fuel += fuel;
         }
     }
@@ -59,4 +57,5 @@ pub fn main() anyerror!void {
     try stdout.print("AoC2019 - Day01\n===============\n", .{});
     try stdout.print("Part 1 total fuel: {d}\n", .{sum});
     try stdout.print("Part 2 total fuel: {d}\n", .{total_fuel});
+    try bw.flush();
 }
