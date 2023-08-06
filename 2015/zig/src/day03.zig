@@ -16,31 +16,41 @@ const std = @import("std");
 const process = std.process;
 const fs = std.fs;
 
-// We assume that a map 200x200 is big enough
-// and we start from the middle position 100,100.
+const Coord = struct {
+    x: i32,
+    y: i32,
+};
+
 fn part_1(text: []u8) u32 {
-    var pos_x: u32 = 100;
-    var pos_y: u32 = 100;
+    var map = std.AutoArrayHashMap(Coord, bool).init(std.heap.page_allocator);
+    defer map.deinit();
+
     var count: u32 = 0;
-    var map: [200][200]u8 = undefined;
+    var x:i32 = 0;
+    var y:i32 = 0;
     for (text) |c| {
         switch (c) {
             '>' => {
-                pos_x += 1;
+                x += 1;
             },
             '<' => {
-                pos_x -= 1;
+                x -= 1;
             },
             '^' => {
-                pos_y += 1;
+                y += 1;
             },
             'v' => {
-                pos_y -= 1;
+                y -= 1;
             },
             else => {},
         }
-        if (map[pos_x][pos_y] != 'x') {
-            map[pos_x][pos_y] = 'x';
+
+        const home = Coord {
+            .x = x,
+            .y = y,
+        };
+        if (!map.contains(home)) {
+            map.put(home, true) catch {};
             count += 1;
         }
     }
@@ -48,32 +58,36 @@ fn part_1(text: []u8) u32 {
     return count;
 }
 
-// We assume that a map 200x200 is big enough
-// and we start from the middle position 100,100.
 fn part_2(text: []u8) u32 {
-    var pos_x = [_]u32{100, 100};
-    var pos_y = [_]u32{100, 100};
+    var map = std.AutoArrayHashMap(Coord, bool).init(std.heap.page_allocator);
+    defer map.deinit();
+
+    var x = [_]i32{0, 0};
+    var y = [_]i32{0, 0};
     var count: u32 = 0;
-    var map: [200][200]u8 = undefined;
     var robot: u8 = 0;
     for (text) |c| {
         switch (c) {
             '>' => {
-                pos_x[robot] += 1;
+                x[robot] += 1;
             },
             '<' => {
-                pos_x[robot] -= 1;
+                x[robot] -= 1;
             },
             '^' => {
-                pos_y[robot] += 1;
+                y[robot] += 1;
             },
             'v' => {
-                pos_y[robot] -= 1;
+                y[robot] -= 1;
             },
             else => {},
         }
-        if (map[pos_x[robot]][pos_y[robot]] != 'x') {
-            map[pos_x[robot]][pos_y[robot]] = 'x';
+        const home = Coord {
+            .x = x[robot],
+            .y = y[robot],
+        };
+        if (!map.contains(home)) {
+            map.put(home, true) catch {};
             count += 1;
         }
         robot = (robot+1) % 2;
