@@ -20,7 +20,7 @@ cmake_install.cmake
 .gradle/
 
 # Zig artifacts
-zig-cache
+.zig-cache
 
 # Compiled Dynamic libraries
 *.so
@@ -39,4 +39,4 @@ zig-cache
 *.app
 *.jar
 build/
-# day??
+day??

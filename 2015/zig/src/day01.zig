@@ -27,11 +27,11 @@ pub fn main() anyerror!void {
 
     var arg_it = try process.argsWithAllocator(allocator);
     // First arg is the executable name
-    var arg_exe = arg_it.next() orelse "";
+    const arg_exe = arg_it.next() orelse "";
 
     const filename = arg_it.next() orelse {
         std.debug.print("Please enter filename to input data:\n", .{});
-        std.debug.print("> {s} <filename>\n", .{ arg_exe });
+        std.debug.print("> {s} <filename>\n", .{arg_exe});
         return error.InvalidArgs;
     };
 

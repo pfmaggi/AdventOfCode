@@ -26,8 +26,8 @@ fn part_1(text: []u8) u32 {
     defer map.deinit();
 
     var count: u32 = 0;
-    var x:i32 = 0;
-    var y:i32 = 0;
+    var x: i32 = 0;
+    var y: i32 = 0;
     for (text) |c| {
         switch (c) {
             '>' => {
@@ -45,7 +45,7 @@ fn part_1(text: []u8) u32 {
             else => {},
         }
 
-        const home = Coord {
+        const home = Coord{
             .x = x,
             .y = y,
         };
@@ -62,8 +62,8 @@ fn part_2(text: []u8) u32 {
     var map = std.AutoArrayHashMap(Coord, bool).init(std.heap.page_allocator);
     defer map.deinit();
 
-    var x = [_]i32{0, 0};
-    var y = [_]i32{0, 0};
+    var x = [_]i32{ 0, 0 };
+    var y = [_]i32{ 0, 0 };
     var count: u32 = 0;
     var robot: u8 = 0;
     for (text) |c| {
@@ -82,7 +82,7 @@ fn part_2(text: []u8) u32 {
             },
             else => {},
         }
-        const home = Coord {
+        const home = Coord{
             .x = x[robot],
             .y = y[robot],
         };
@@ -90,7 +90,7 @@ fn part_2(text: []u8) u32 {
             map.put(home, true) catch {};
             count += 1;
         }
-        robot = (robot+1) % 2;
+        robot = (robot + 1) % 2;
     }
 
     return count;
@@ -107,11 +107,11 @@ pub fn main() anyerror!void {
 
     var arg_it = try process.argsWithAllocator(allocator);
     // First arg is the executable name
-    var arg_exe = arg_it.next() orelse "";
+    const arg_exe = arg_it.next() orelse "";
 
     const filename = arg_it.next() orelse {
         std.debug.print("Please enter filename to input data:\n", .{});
-        std.debug.print("> {s} <filename>\n", .{ arg_exe });
+        std.debug.print("> {s} <filename>\n", .{arg_exe});
         return error.InvalidArgs;
     };
 
@@ -120,7 +120,7 @@ pub fn main() anyerror!void {
     defer allocator.free(text);
 
     try stdout.print("AoC2015 - Day03\n===============\n", .{});
-    try stdout.print("Total Houses for part 1: {d}\n", .{ part_1(text) });
-    try stdout.print("Total Houses for part 2: {d}\n", .{ part_2(text) });
+    try stdout.print("Total Houses for part 1: {d}\n", .{part_1(text)});
+    try stdout.print("Total Houses for part 2: {d}\n", .{part_2(text)});
     try bw.flush(); // don't forget to flush!
 }

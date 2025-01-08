@@ -14,13 +14,13 @@ pub fn build(b: *std.Build) void {
     const DAYS = 4;
 
     var run_day_step: [DAYS]*std.Build.Step = undefined;
-    for (1..(DAYS+1)) |i| {
-        const path = b.fmt("src/day{d:0>2}.zig", .{ i });
-        const name = b.fmt("day{d:0>2}", .{ i });
+    for (1..(DAYS + 1)) |i| {
+        const path = b.fmt("src/day{d:0>2}.zig", .{i});
+        const name = b.fmt("day{d:0>2}", .{i});
 
         const exe = b.addExecutable(.{
             .name = name,
-            .root_source_file = .{ .path = path },
+            .root_source_file = b.path(path),
             .target = target,
             .optimize = optimize,
         });
@@ -41,7 +41,7 @@ pub fn build(b: *std.Build) void {
         // files, this ensures they will be present and in the expected location.
         run_cmd.step.dependOn(b.getInstallStep());
 
-        const args = b.fmt("../input/day{d:0>2}.txt", .{ i });
+        const args = b.fmt("../input/day{d:0>2}.txt", .{i});
         run_cmd.addArg(args);
 
         // This creates a build step. It will be visible in the `zig build --help` menu,
@@ -50,9 +50,9 @@ pub fn build(b: *std.Build) void {
         // run_day_step[i-1] = b.step("run", "Run the app");
         // run_day_step[i-1].dependOn(&run_cmd.step);
 
-        const runs_ext = b.fmt("Run day {d:0>2}", . { i });
-        const runs = b.fmt("run_day{d:0>2}", . { i });
-        run_day_step[i-1] = b.step(runs, runs_ext);
-        run_day_step[i-1].dependOn(&run_cmd.step);
+        const runs_ext = b.fmt("Run day {d:0>2}", .{i});
+        const runs = b.fmt("run_day{d:0>2}", .{i});
+        run_day_step[i - 1] = b.step(runs, runs_ext);
+        run_day_step[i - 1].dependOn(&run_cmd.step);
     }
 }

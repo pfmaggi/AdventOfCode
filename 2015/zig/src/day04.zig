@@ -27,11 +27,11 @@ pub fn main() anyerror!void {
 
     var arg_it = try process.argsWithAllocator(allocator);
     // First arg is the executable name
-    var arg_exe = arg_it.next() orelse "";
+    const arg_exe = arg_it.next() orelse "";
 
     const filename = arg_it.next() orelse {
         std.debug.print("Please enter filename to input data:\n", .{});
-        std.debug.print("> {s} <filename>\n", .{ arg_exe });
+        std.debug.print("> {s} <filename>\n", .{arg_exe});
         return error.InvalidArgs;
     };
 
@@ -47,7 +47,7 @@ pub fn main() anyerror!void {
     var nSixZeros: u32 = 0;
     while (it.next()) |line| {
         while (nFiveZeros == 0 or nSixZeros == 0) {
-            const hash_input = std.fmt.bufPrint(&buf, "{s}{d}", .{line, number}) catch unreachable;
+            const hash_input = std.fmt.bufPrint(&buf, "{s}{d}", .{ line, number }) catch unreachable;
             std.crypto.hash.Md5.hash(hash_input, &hash, .{});
             if (hash[0] == 0 and hash[1] == 0) {
                 if (hash[2] & 0xF0 == 0 and nFiveZeros == 0) {
@@ -63,7 +63,7 @@ pub fn main() anyerror!void {
     }
 
     try stdout.print("AoC2015 - Day04\n===============\n", .{});
-    try stdout.print("Lowest possible number for 5 zeros hashes: {d}\n", .{ nFiveZeros });
-    try stdout.print("Lowest possible number for 6 zeros hashes: {d}\n", .{ nSixZeros });
+    try stdout.print("Lowest possible number for 5 zeros hashes: {d}\n", .{nFiveZeros});
+    try stdout.print("Lowest possible number for 6 zeros hashes: {d}\n", .{nSixZeros});
     try bw.flush(); // don't forget to flush!
 }
