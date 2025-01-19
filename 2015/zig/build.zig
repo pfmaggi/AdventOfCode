@@ -11,7 +11,7 @@ pub fn build(b: *std.Build) void {
     // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall. Here we do not
     // set a preferred release mode, allowing the user to decide how to optimize.
     const optimize = b.standardOptimizeOption(.{});
-    const DAYS = 5;
+    const DAYS = 6;
 
     var run_day_step: [DAYS]*std.Build.Step = undefined;
     for (1..(DAYS + 1)) |i| {

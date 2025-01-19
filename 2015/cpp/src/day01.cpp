@@ -23,7 +23,8 @@ int main(int argc, char *argv[]) {
   if (argc < 2) {
     std::cout << "Please enter filename to input data:\n";
     std::cout << "> " << argv[0] << " <filename>\n";
-    return EXIT_FAILURE;
+
+    std::exit(EXIT_FAILURE);
   }
 
   // Open the file
@@ -31,7 +32,8 @@ int main(int argc, char *argv[]) {
 
   if (!in) {
     std::cout << "File opening failed\n";
-    return EXIT_FAILURE;
+
+    std::exit(EXIT_FAILURE);
   }
 
   auto position{0};
