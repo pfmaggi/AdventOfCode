@@ -46,11 +46,11 @@ pub fn main() anyerror!void {
             lights2[x][y] = 0;
         }
     }
-    var it = std.mem.split(u8, text, "\n");
+    var it = std.mem.splitSequence(u8, text, "\n");
     while (it.next()) |line| {
         if (line.len == 0)
             continue;
-        var tokens = std.mem.tokenize(u8, line, " ");
+        var tokens = std.mem.tokenizeSequence(u8, line, " ");
         const token = tokens.next() orelse "";
         if (std.mem.eql(u8, token, "toggle")) {
             // Toggle
@@ -62,8 +62,8 @@ pub fn main() anyerror!void {
                 std.process.exit(1);
             }
             const coord2 = tokens.next() orelse "";
-            var point1 = std.mem.tokenize(u8, coord1, ",");
-            var point2 = std.mem.tokenize(u8, coord2, ",");
+            var point1 = std.mem.tokenizeSequence(u8, coord1, ",");
+            var point2 = std.mem.tokenizeSequence(u8, coord2, ",");
 
             const x1 = try std.fmt.parseInt(usize, point1.next() orelse "0", 10);
             const y1 = try std.fmt.parseInt(usize, point1.next() orelse "0", 10);
@@ -94,8 +94,8 @@ pub fn main() anyerror!void {
                 std.process.exit(1);
             }
             const coord2 = tokens.next() orelse "";
-            var point1 = std.mem.tokenize(u8, coord1, ",");
-            var point2 = std.mem.tokenize(u8, coord2, ",");
+            var point1 = std.mem.tokenizeSequence(u8, coord1, ",");
+            var point2 = std.mem.tokenizeSequence(u8, coord2, ",");
 
             const x1 = try std.fmt.parseInt(usize, point1.next() orelse "0", 10);
             const y1 = try std.fmt.parseInt(usize, point1.next() orelse "0", 10);

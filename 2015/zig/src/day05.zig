@@ -91,7 +91,7 @@ pub fn main() anyerror!void {
 
     var nicePart1: u32 = 0;
     var nicePart2: u32 = 0;
-    var it = std.mem.split(u8, text, "\n");
+    var it = std.mem.splitSequence(u8, text, "\n");
     while (it.next()) |line| {
         if (line.len == 0)
             continue;

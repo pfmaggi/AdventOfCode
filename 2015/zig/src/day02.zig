@@ -49,11 +49,11 @@ pub fn main() anyerror!void {
 
     var paper: u32 = 0;
     var ribbon: u32 = 0;
-    var it = std.mem.split(u8, text, "\n");
+    var it = std.mem.splitSequence(u8, text, "\n");
     while (it.next()) |line| {
         if (line.len == 0)
             continue;
-        var dim = std.mem.tokenize(u8, line, "x");
+        var dim = std.mem.tokenizeSequence(u8, line, "x");
         var dims = [_]u32{ 0, 0, 0 };
         var i: u32 = 0;
         while (dim.next()) |d| {
@@ -82,7 +82,7 @@ pub fn main() anyerror!void {
     }
 
     try stdout.print("AoC2015 - Day02\n===============\n", .{});
-    try stdout.print("total paper = {d}\n", .{ paper });
-    try stdout.print("total ribbon = {d}\n", .{ ribbon });
+    try stdout.print("total paper = {d}\n", .{paper});
+    try stdout.print("total ribbon = {d}\n", .{ribbon});
     try bw.flush(); // don't forget to flush!
 }

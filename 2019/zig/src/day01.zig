@@ -41,7 +41,7 @@ pub fn main() anyerror!void {
 
     var sum: u64 = 0;
     var total_fuel: u64 = 0;
-    var it = std.mem.tokenize(u8, text, "\n\r\t");
+    var it = std.mem.tokenizeAny(u8, text, "\n\r\t");
     while (it.next()) |line| {
         var fuel = try std.fmt.parseInt(u32, line, 10);
         fuel = (fuel / 3) - 2;

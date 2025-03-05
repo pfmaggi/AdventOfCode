@@ -39,7 +39,7 @@ pub fn main() anyerror!void {
     const text = try fs.cwd().readFileAlloc(allocator, filename, limit);
     defer allocator.free(text);
 
-    var it = std.mem.tokenize(u8, text, "\n\r\t");
+    var it = std.mem.tokenizeSequence(u8, text, "\n\r\t");
     var buf: [16]u8 = undefined;
     var hash: [std.crypto.hash.Md5.digest_length]u8 = undefined;
     var number: u32 = 1;
