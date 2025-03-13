@@ -1,0 +1,17 @@
+package(default_visibility = ["//test:__pkg__"])
+
+cc_library(
+  name = "problems",
+  srcs = glob(["day_*.cc"]),
+  hdrs = glob(["*.h"])
+)
+
+cc_binary(
+  name = "aoc",
+  srcs = ["aoc.cc"],
+  deps = [
+    "@fmt//:fmt",
+    "@abseil-cpp//absl/strings",
+    ":problems",
+  ]
+)

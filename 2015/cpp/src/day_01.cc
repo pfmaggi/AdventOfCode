@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-#include <cstdlib>
-#include <fstream>
-#include <iostream>
-#include <numeric>
+#include "aoc.h"
 
-int main(int argc, char *argv[]) {
-  if (argc < 2) {
-    std::cout << "Please enter filename to input data:\n";
-    std::cout << "> " << argv[0] << " <filename>\n";
-
-    std::exit(EXIT_FAILURE);
-  }
+std::pair<int, long> day_01(std::string filename) {
 
   // Open the file
-  std::ifstream in(argv[1]);
+  std::ifstream in(filename);
 
   if (!in) {
-    std::cout << "File opening failed\n";
+    std::puts("File opening failed\n");
 
     std::exit(EXIT_FAILURE);
   }
@@ -39,7 +30,7 @@ int main(int argc, char *argv[]) {
   auto position{0};
   auto count = std::accumulate(
       std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>(), 0L,
-      [i = 0, &position](auto counter, auto val) mutable {
+      [i{0L}, &position](auto counter, auto val) mutable {
         i++;
         if ('(' == val) counter++;
         if (')' == val) counter--;
@@ -47,9 +38,5 @@ int main(int argc, char *argv[]) {
         return counter;
       });
 
-  std::cout << "AoC2015 - Day01\n===============\n";
-  std::cout << "Final floor is: " << count << '\n';
-  std::cout << "Entered the basement at position: " << position << '\n';
-
-  return EXIT_SUCCESS;
+  return std::pair<int, long>{count, position};
 }
