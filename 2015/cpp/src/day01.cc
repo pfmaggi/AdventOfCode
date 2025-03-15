@@ -16,13 +16,12 @@
 
 #include "aoc.h"
 
-std::pair<int, long> day_01(std::string filename) {
-
+std::pair<int, long> day_01(const std::string& filename) {
   // Open the file
   std::ifstream in(filename);
 
   if (!in) {
-    std::puts("File opening failed\n");
+    std::cerr << "File opening failed: " << filename << '\n';
 
     std::exit(EXIT_FAILURE);
   }
@@ -38,5 +37,6 @@ std::pair<int, long> day_01(std::string filename) {
         return counter;
       });
 
+  in.close();
   return std::pair<int, long>{count, position};
 }

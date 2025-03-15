@@ -17,11 +17,19 @@
 #ifndef __AOC_2015_H__
 #define __AOC_2015_H__
 
-#include <cstdlib>
+#include <algorithm>
 #include <cstdio>
+#include <cstdlib>
 #include <fstream>
+#include <iostream>
+#include <iterator>
 #include <numeric>
+#include <sstream>
+#include <string>
+#include <tuple>
+#include <vector>
 
-std::pair<int, long> day_01(std::string filename);
+std::pair<int, long> day_01(const std::string& filename);
+std::pair<long, long> day_02(const std::string& filename);
 
 #endif

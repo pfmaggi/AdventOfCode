@@ -15,23 +15,31 @@
  */
 
 #include "aoc.h"
-#include <fmt/core.h>
-#include "absl/strings/str_cat.h"
 
+#include <fmt/core.h>
+
+#include "absl/strings/str_cat.h"
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
-    fmt::print("Please enter path to input data files:\n> {} <path>\n", argv[0]);
+    std::cerr << "Please enter path to input data files: " << argv[0]
+              << " <path>\n";
 
     std::exit(EXIT_FAILURE);
   }
 
   auto [count, position] = day_01(absl::StrCat(argv[1], "/day01.txt"));
 
-  fmt::print("AoC2015 - Day01\n===============\n");
+  fmt::print("\nAoC2015 - Day01\n===============\n");
   fmt::print("Part 1 - Final floor is: {}\n", count);
   fmt::print("Part 2 - Entered the basement at position: {}\n", position);
 
+  auto [total_paper, total_ribbon] =
+      day_02(absl::StrCat(argv[1], "/day02.txt"));
+
+  fmt::print("\nAoC2015 - Day02\n===============\n");
+  fmt::print("Part 1 - Total paper = {}\n", total_paper);
+  fmt::print("Part 2 - Total ribbon = {}\n", total_ribbon);
+
   return EXIT_SUCCESS;
 }
-
